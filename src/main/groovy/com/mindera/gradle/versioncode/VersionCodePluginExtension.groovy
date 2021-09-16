@@ -1,13 +1,15 @@
 package com.mindera.gradle.versioncode
 
+import org.gradle.api.provider.Property
+
 /**
  * Created by renatoalmeida on 23/03/16.
  */
-class VersionCodePluginExtension {
+interface VersionCodePluginExtension {
 
-    def String appId
+    Property<String> getAppId()
 
-    def String serviceEndpoint
+    Property<String> getServiceEndpoint()
 
-    def boolean enabled
+    Property<Boolean> getEnabled()
 }

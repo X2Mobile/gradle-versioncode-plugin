@@ -2,6 +2,7 @@ package com.mindera.gradle.versioncode
 
 import com.mindera.gradle.versioncode.utils.VersionCodeService
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 /**
@@ -9,10 +10,13 @@ import org.gradle.api.tasks.TaskAction
  */
 class IncrementVersionCodeTask extends DefaultTask {
 
+    @Input
     String serviceEndpoint
 
+    @Input
     String appId
 
+    @Input
     boolean enabled
 
     @TaskAction

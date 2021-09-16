@@ -1,6 +1,5 @@
 package com.mindera.gradle.versioncode
 
-import com.android.build.gradle.api.ApplicationVariant
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -42,9 +41,9 @@ class VersionCodePlugin implements Plugin<Project> {
 
                 def incrementVersionCodeTask = project.tasks.
                         create(incrementVersionCodeTaskName, IncrementVersionCodeTask)
-                incrementVersionCodeTask.appId = getApplicationId(extension, variant)
-                incrementVersionCodeTask.serviceEndpoint = extension.serviceEndpoint
-                incrementVersionCodeTask.enabled = extension.enabled
+                incrementVersionCodeTask.appId = extension.appId.getOrElse(variant.applicationId)
+                incrementVersionCodeTask.serviceEndpoint = extension.serviceEndpoint.get()
+                incrementVersionCodeTask.enabled = extension.enabled.getOrElse(true)
                 incrementVersionCodeTask.description =
                         "Increment version code for ${variationName} build type"
                 incrementVersionCodeTask.group = GRADLE_GROUP
@@ -53,9 +52,9 @@ class VersionCodePlugin implements Plugin<Project> {
             log.debug("Android plugin not detected")
             def incrementVersionCodeTask = project.tasks.
                     create(TASK_PREFIX, IncrementVersionCodeTask)
-            incrementVersionCodeTask.appId = extension.appId
-            incrementVersionCodeTask.serviceEndpoint = extension.serviceEndpoint
-            incrementVersionCodeTask.enabled = extension.enabled
+            incrementVersionCodeTask.appId = extension.appId.get()
+            incrementVersionCodeTask.serviceEndpoint = extension.serviceEndpoint.get()
+            incrementVersionCodeTask.enabled = extension.enabled.getOrElse(true)
             incrementVersionCodeTask.description = "Increment version code"
             incrementVersionCodeTask.group = GRADLE_GROUP
         }
@@ -68,17 +67,6 @@ class VersionCodePlugin implements Plugin<Project> {
      */
     static boolean hasAndroidPlugin(Project project) {
         return project.plugins.hasPlugin("com.android.application")
-    }
-
-    static String getApplicationId(VersionCodePluginExtension extension,
-            ApplicationVariant variant) {
-        def appId
-        if (extension.hasProperty("appId") && extension.appId != null) {
-            appId = extension.appId
-        } else {
-            appId = variant.applicationId
-        }
-        return appId
     }
 }
 

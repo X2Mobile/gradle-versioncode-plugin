@@ -23,7 +23,7 @@ buildscript {
     
     dependencies {
     	...
-        classpath 'com.github.Mindera:gradle-versioncode-plugin:1.3'
+        classpath 'com.github.Mindera:gradle-versioncode-plugin:1.4'
     }
 }
 ```
