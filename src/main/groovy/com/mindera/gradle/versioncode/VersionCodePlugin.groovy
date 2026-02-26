@@ -1,6 +1,6 @@
 package com.mindera.gradle.versioncode
 
-import com.android.build.api.variant.AndroidComponentsExtension
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -21,7 +21,7 @@ class VersionCodePlugin implements Plugin<Project> {
 
         if (hasAndroidPlugin(project)) {
 
-            def androidComponents = project.extensions.getByType(AndroidComponentsExtension)
+            def androidComponents = project.extensions.getByType(ApplicationAndroidComponentsExtension)
 
             androidComponents.onVariants { variant ->
 
