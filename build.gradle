@@ -2,22 +2,13 @@ apply plugin: 'groovy'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'maven-publish'
 
-buildscript {
-    repositories {
-        google()
-    }
+repositories {
+    google()
+    mavenCentral()
 }
 
 dependencies {
-    repositories {
-        google()
-    }
-
     compileOnly("com.android.tools.build:gradle:9.0.1")
-}
-
-repositories {
-    mavenCentral()
 }
 
 group = 'com.mindera.gradle.versioncode'
