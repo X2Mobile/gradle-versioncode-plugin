@@ -1,5 +1,6 @@
 package com.mindera.gradle.versioncode
 
+import com.android.build.api.component.AndroidComponentsExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -20,16 +21,16 @@ class VersionCodePlugin implements Plugin<Project> {
 
         if (hasAndroidPlugin(project)) {
 
-            project.android.applicationVariants.all { variant ->
+            project.extensions.getByType(AndroidComponentsExtension).onVariants { variant ->
                 log.debug("Detected android plugin")
                 if (variant.buildType.isDebuggable()) {
-                    log.debug("Skipping debuggable build type ${variant.buildType.name}.")
+                    log.debug("Skipping debuggable build type ${variant.buildType}.")
                     return
                 }
 
-                def buildTypeName = variant.buildType.name.capitalize()
+                def buildTypeName = variant.buildType.capitalize()
 
-                def productFlavorNames = variant.productFlavors.collect { it.name.capitalize() }
+                def productFlavorNames = variant.productFlavors.collect { it.capitalize() }
                 if (productFlavorNames.isEmpty()) {
                     productFlavorNames = [""]
                 }
