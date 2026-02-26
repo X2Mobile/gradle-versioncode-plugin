@@ -21,28 +21,31 @@ class VersionCodePlugin implements Plugin<Project> {
 
         if (hasAndroidPlugin(project)) {
 
-            project.extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
+            def androidComponents = project.extensions.getByType(AndroidComponentsExtension)
+
+            androidComponents.onVariants { variant ->
+
                 log.debug("Detected android plugin")
-                if (variant.buildType.isDebuggable()) {
-                    log.debug("Skipping debuggable build type ${variant.buildType}.")
+                if (variant.buildType.get().isDebuggable()) {
+                    log.debug("Skipping debuggable build type ${variant.buildType.get().name}.")
                     return
                 }
 
-                def buildTypeName = variant.buildType.capitalize()
+                def buildTypeName = variant.buildType.get().name.capitalize()
 
-                def productFlavorNames = variant.productFlavors.collect { it.capitalize() }
-                if (productFlavorNames.isEmpty()) {
-                    productFlavorNames = [""]
+                def flavorNames = variant.flavors.collect { it.name.capitalize() }
+                if (flavorNames.isEmpty()) {
+                    flavorNames = [""]
                 }
-                def productFlavorName = productFlavorNames.join('')
+                def flavorName = flavorNames.join('')
 
-                def variationName = "${productFlavorName}${buildTypeName}"
+                def variationName = "${flavorName}${buildTypeName}"
 
                 def incrementVersionCodeTaskName = "${TASK_PREFIX}${variationName}"
 
                 def incrementVersionCodeTask = project.tasks.
                         create(incrementVersionCodeTaskName, IncrementVersionCodeTask)
-                incrementVersionCodeTask.appId = extension.appId.getOrElse(variant.applicationId)
+                incrementVersionCodeTask.appId = extension.appId.getOrElse(variant.applicationId.get())
                 incrementVersionCodeTask.serviceEndpoint = extension.serviceEndpoint.get()
                 incrementVersionCodeTask.enabled = extension.enabled.getOrElse(true)
                 incrementVersionCodeTask.description =
