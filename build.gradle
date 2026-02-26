@@ -21,7 +21,7 @@ repositories {
 }
 
 group = 'com.mindera.gradle.versioncode'
-version = '1.5'
+version = '1.4'
 
 publishing {
     repositories {
