@@ -23,7 +23,7 @@ class VersionCodePlugin implements Plugin<Project> {
 
             def androidComponents = project.extensions.getByType(ApplicationAndroidComponentsExtension)
 
-            androidComponents.onVariants { variant ->
+            ((ApplicationAndroidComponentsExtension) androidComponents).onVariants { variant ->
 
                 log.debug("Detected android plugin")
                 if (variant.buildType.get().isDebuggable()) {
