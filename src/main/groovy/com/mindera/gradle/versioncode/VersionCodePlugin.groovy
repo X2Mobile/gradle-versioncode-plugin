@@ -1,6 +1,6 @@
 package com.mindera.gradle.versioncode
 
-import com.android.build.api.component.AndroidComponentsExtension
+import com.android.build.api.variant.AndroidComponentsExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -21,7 +21,7 @@ class VersionCodePlugin implements Plugin<Project> {
 
         if (hasAndroidPlugin(project)) {
 
-            project.extensions.getByType(AndroidComponentsExtension).onVariants { variant ->
+            project.extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
                 log.debug("Detected android plugin")
                 if (variant.buildType.isDebuggable()) {
                     log.debug("Skipping debuggable build type ${variant.buildType}.")
