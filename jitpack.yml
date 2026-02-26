@@ -1,0 +1,3 @@
+jdk: openjdk17
+gradle:
+  version: 9.3.1
